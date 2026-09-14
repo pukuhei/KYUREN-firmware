@@ -1,0 +1,60 @@
+name: Verify Windows release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to verify
+        required: true
+        default: v2026.09.14-preview.1
+permissions:
+  contents: read
+jobs:
+  install-and-self-check:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Download and check installer
+        shell: pwsh
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v[0-9A-Za-z._-]+$') { throw 'Invalid tag' }
+          gh release download $env:RELEASE_TAG --pattern 'KYUREN-Companion-20260914-Windows-x64.exe' --pattern 'SHA256SUMS.txt' --dir $env:RUNNER_TEMP
+          if ($LASTEXITCODE -ne 0) { throw 'Download failed' }
+          $name = 'KYUREN-Companion-20260914-Windows-x64.exe'
+          $line = Get-Content "$env:RUNNER_TEMP/SHA256SUMS.txt" | Where-Object { $_ -match "  $([regex]::Escape($name))$" }
+          if (@($line).Count -ne 1) { throw 'Missing installer checksum' }
+          $expected = ($line -split '\s+')[0]
+          $actual = (Get-FileHash "$env:RUNNER_TEMP/$name" -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw 'Checksum mismatch' }
+      - name: Install and verify bridge
+        shell: pwsh
+        run: |
+          $destination = "$env:RUNNER_TEMP/KYUREN-installed"
+          $installer = Start-Process "$env:RUNNER_TEMP/KYUREN-Companion-20260914-Windows-x64.exe" -ArgumentList @('/S', "/D=$destination") -PassThru -Wait
+          if ($installer.ExitCode -ne 0) { throw "Installer exit $($installer.ExitCode)" }
+          if (!(Test-Path "$destination/KYUREN Companion.exe")) { throw 'App missing' }
+          $start = [System.Diagnostics.ProcessStartInfo]::new()
+          $start.FileName = "$destination/resources/bin/KyurenCompanionBridge.exe"
+          $start.UseShellExecute = $false
+          $start.RedirectStandardInput = $true
+          $start.RedirectStandardOutput = $true
+          $start.RedirectStandardError = $true
+          $process = [System.Diagnostics.Process]::Start($start)
+          $output = $process.StandardOutput.ReadToEndAsync()
+          $errors = $process.StandardError.ReadToEndAsync()
+          foreach ($method in @('hello','selfCheck','snapshot','stop')) {
+            $process.StandardInput.WriteLine((@{id=$method;method=$method} | ConvertTo-Json -Compress))
+          }
+          $process.StandardInput.Close()
+          if (!$process.WaitForExit(30000)) { $process.Kill($true); throw 'Bridge timeout' }
+          if ($process.ExitCode -ne 0) { throw $errors.Result }
+          $lines = $output.Result -split '\r?\n' | Where-Object { $_ } | ForEach-Object { $_ | ConvertFrom-Json }
+          foreach ($method in @('hello','selfCheck','snapshot','stop')) {
+            $response = $lines | Where-Object { $_.id -eq $method }
+            if (!$response.ok) { throw "$method failed" }
+          }
+          if (($lines | Where-Object { $_.id -eq 'hello' }).result.protocol -ne 'kyuren-bridge-v1') { throw 'Unexpected protocol' }
+          Write-Output 'PASS: installer checksum, silent installation, hello/selfCheck/snapshot/stop. Hardware workflows remain unverified.'
