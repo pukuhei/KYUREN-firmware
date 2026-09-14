@@ -32,10 +32,16 @@ jobs:
       - name: Install and verify bridge
         shell: pwsh
         run: |
-          $destination = "$env:RUNNER_TEMP/KYUREN-installed"
-          $installer = Start-Process "$env:RUNNER_TEMP/KYUREN-Companion-20260914-Windows-x64.exe" -ArgumentList @('/S', "/D=$destination") -PassThru -Wait
+          $destination = Join-Path $env:RUNNER_TEMP 'kyuren-companion-electron'
+          $installer = Start-Process "$env:RUNNER_TEMP/KYUREN-Companion-20260914-Windows-x64.exe" -ArgumentList @('/S', '/currentuser', "/D=$destination") -PassThru -Wait
           if ($installer.ExitCode -ne 0) { throw "Installer exit $($installer.ExitCode)" }
-          if (!(Test-Path "$destination/KYUREN Companion.exe")) { throw 'App missing' }
+          $apps = @(Get-ChildItem $destination -Filter 'KYUREN Companion.exe' -Recurse -ErrorAction SilentlyContinue)
+          if ($apps.Count -ne 1) {
+            Get-ChildItem $destination -Recurse -ErrorAction SilentlyContinue | Select-Object -First 25 FullName
+            Get-ChildItem "$env:LOCALAPPDATA/Programs" -Directory -ErrorAction SilentlyContinue | Select-Object FullName
+            throw 'Installed app not found at the requested destination'
+          }
+          $destination = $apps[0].DirectoryName
           $start = [System.Diagnostics.ProcessStartInfo]::new()
           $start.FileName = "$destination/resources/bin/KyurenCompanionBridge.exe"
           $start.UseShellExecute = $false
