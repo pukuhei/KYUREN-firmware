@@ -10,17 +10,19 @@
 | 必要なもの | ダウンロード |
 | --- | --- |
 | Mac用Companion（Apple Silicon、macOS 14以降） | [macOS版 DMG](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.14-preview.1/KYUREN-Companion-20260914-macOS-arm64.dmg) |
-| Windows用Companion（Windows 11、x64） | [Windows版 EXE](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.14-preview.1/KYUREN-Companion-20260914-Windows-x64.exe) |
+| Windows用Companion（Windows 11、x64） | [Windows版 EXE（9月19日・Whisper同梱修正版）](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.19-preview.1/KYUREN-Companion-20260919-Windows-x64.exe) |
 | KYUREN本体の通常版ファーム | [UF2](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.14-preview.1/KYUREN-xiao_ble-usb-studio.uf2) |
 
 [すべての配布ファイル・更新内容](https://github.com/pukuhei/KYUREN-firmware/releases) · [検証状況](VERIFICATION.md)
+
+9月14日のWindows版にはWhisperが含まれていませんでした。音声入力をご利用の方は9月19日の修正版へ更新してください。macOS版と本体ファームの更新は不要です。
 
 ## はじめに
 
 1. Companionをインストールします。MacはDMGを開いてアプリをApplicationsへドラッグ、WindowsはEXEを実行します。
 2. アプリを起動し、左メニューの「チュートリアル」を開きます。初回は自動で表示されます。
 3. KYURENの電源を入れ、接続します。Windowsでは先にOSのBluetooth設定でペアリングします。
-4. 音声入力に必要な許可と自動入力を確認します。Windowsでは日本語の音声認識機能も必要です。
+4. 音声入力に必要な許可と自動入力を確認します。Windows修正版にはWhisper smallが同梱され、Windowsの日本語音声認識機能の追加インストールは不要です。
 5. メモ帳などの入力欄を選び、SW6を押したまま話します。離して、文字が入力されるまで待ちます。
 
 音声入力はCompanion経由の文字入力です。会議アプリで選択するBluetoothマイクではありません。

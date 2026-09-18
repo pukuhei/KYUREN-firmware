@@ -5,7 +5,7 @@ on:
       tag:
         description: Release tag to verify
         required: true
-        default: v2026.09.14-preview.1
+        default: v2026.09.19-preview.1
 permissions:
   contents: read
 jobs:
@@ -21,9 +21,11 @@ jobs:
         shell: pwsh
         run: |
           if ($env:RELEASE_TAG -notmatch '^v[0-9A-Za-z._-]+$') { throw 'Invalid tag' }
-          gh release download $env:RELEASE_TAG --pattern 'KYUREN-Companion-20260914-Windows-x64.exe' --pattern 'SHA256SUMS.txt' --dir $env:RUNNER_TEMP
+          gh release download $env:RELEASE_TAG --pattern 'KYUREN-Companion-*-Windows-x64.exe' --pattern 'SHA256SUMS.txt' --dir $env:RUNNER_TEMP
           if ($LASTEXITCODE -ne 0) { throw 'Download failed' }
-          $name = 'KYUREN-Companion-20260914-Windows-x64.exe'
+          $installers = @(Get-ChildItem $env:RUNNER_TEMP -Filter 'KYUREN-Companion-*-Windows-x64.exe')
+          if ($installers.Count -ne 1) { throw 'Expected exactly one installer' }
+          $name = $installers[0].Name
           $line = Get-Content "$env:RUNNER_TEMP/SHA256SUMS.txt" | Where-Object { $_ -match "  $([regex]::Escape($name))$" }
           if (@($line).Count -ne 1) { throw 'Missing installer checksum' }
           $expected = ($line -split '\s+')[0]
@@ -33,7 +35,8 @@ jobs:
         shell: pwsh
         run: |
           $destination = Join-Path $env:RUNNER_TEMP 'kyuren-companion-electron'
-          $installer = Start-Process "$env:RUNNER_TEMP/KYUREN-Companion-20260914-Windows-x64.exe" -ArgumentList @('/S', '/currentuser', "/D=$destination") -PassThru -Wait
+          $installerFile = @(Get-ChildItem $env:RUNNER_TEMP -Filter 'KYUREN-Companion-*-Windows-x64.exe')[0].FullName
+          $installer = Start-Process $installerFile -ArgumentList @('/S', '/currentuser', "/D=$destination") -PassThru -Wait
           if ($installer.ExitCode -ne 0) { throw "Installer exit $($installer.ExitCode)" }
           $apps = @(Get-ChildItem $destination -Filter 'KYUREN Companion.exe' -Recurse -ErrorAction SilentlyContinue)
           if ($apps.Count -ne 1) {
@@ -42,6 +45,10 @@ jobs:
             throw 'Installed app not found at the requested destination'
           }
           $destination = $apps[0].DirectoryName
+          $model = Join-Path $destination 'resources/bin/Models/ggml-small.bin'
+          if ((Get-Item $model).Length -ne 487601967) { throw 'Whisper model size mismatch' }
+          if ((Get-FileHash $model -Algorithm SHA256).Hash -ne '1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b') { throw 'Whisper model hash mismatch' }
+          if (Test-Path "$destination/resources/bin/System.Speech.dll") { throw 'Obsolete speech engine included' }
           $start = [System.Diagnostics.ProcessStartInfo]::new()
           $start.FileName = "$destination/resources/bin/KyurenCompanionBridge.exe"
           $start.UseShellExecute = $false
@@ -63,4 +70,6 @@ jobs:
             if (!$response.ok) { throw "$method failed" }
           }
           if (($lines | Where-Object { $_.id -eq 'hello' }).result.protocol -ne 'kyuren-bridge-v1') { throw 'Unexpected protocol' }
-          Write-Output 'PASS: installer checksum, silent installation, hello/selfCheck/snapshot/stop. Hardware workflows remain unverified.'
+          $check = ($lines | Where-Object { $_.id -eq 'selfCheck' }).result
+          if (!$check.modelAvailable -or !$check.whisperBackendAvailable -or $check.transcriptionEngine -ne 'whisper.cpp') { throw 'Whisper model/backend unavailable' }
+          Write-Output 'PASS: installer checksum, silent installation, Whisper model hash/backend loading, hello/selfCheck/snapshot/stop. Hardware workflows remain unverified.'

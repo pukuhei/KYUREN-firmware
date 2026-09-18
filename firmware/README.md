@@ -1,6 +1,6 @@
 # KYUREN 通常版ファーム
 
-- ビルド日：2026-09-14
+- ビルド日：2026-09-19（9月14日の配布物と同一ハッシュを確認）
 - 対象：Seeed XIAO nRF52840 Sense / `xiao_ble//zmk`
 - shield：`kyuren kyuren_oled`
 - snippet：`studio-rpc-usb-uart`
