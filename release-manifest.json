@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "f1575ce406a8e02ecae712532bec98f432e8a414",
+  "tag": "v2026.09.19-f1575ce406",
+  "windowsVerification": "https://github.com/pukuhei/KYUREN-firmware/actions/runs/35408767961",
+  "assets": [
+    {
+      "name": "KYUREN-Companion-f1575ce406-macOS-arm64.dmg",
+      "sha256": "92931c2d270d7a6487acce6418812656703752e194f4e67b4293f5fdce30b4ba"
+    },
+    {
+      "name": "KYUREN-Companion-f1575ce406-Windows-x64.exe",
+      "sha256": "ae4b7f19349df9018f967cc0c8be00a51d65d4345a2b7012683fc8d89dc6b1ba"
+    },
+    {
+      "name": "KYUREN-xiao_ble-usb-studio.uf2",
+      "sha256": "6278d9110310774f85ebd26226132550e774ff8ec4a9b8ab58d85d8763322ef4"
+    }
+  ]
+}
