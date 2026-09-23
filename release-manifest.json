@@ -1,19 +1,19 @@
 {
-  "sourceCommit": "595c45bf4c355cae4116e374a3d39161d0fc4947",
-  "tag": "v2026.09.23-595c45bf4c",
-  "windowsVerification": "https://github.com/pukuhei/KYUREN-firmware/actions/runs/35845320712",
+  "sourceCommit": "1241e30777f8c8e91b9e9120fb5528e83c6ae461",
+  "tag": "v2026.09.23-1241e30777",
+  "windowsVerification": "https://github.com/pukuhei/KYUREN-firmware/actions/runs/35848787745",
   "assets": [
     {
-      "name": "KYUREN-Companion-595c45bf4c-macOS-arm64.dmg",
-      "sha256": "663efe8ff056255486a4f783183f060f54c458c2bb525bd7e0a043550ec9109a"
+      "name": "KYUREN-Companion-1241e30777-macOS-arm64.dmg",
+      "sha256": "a2af2c9ac7cda36f52b491331a1fad3415bfbf2a9eb8c49fd51b9cf30d456347"
     },
     {
-      "name": "KYUREN-Companion-595c45bf4c-Windows-x64.exe",
-      "sha256": "8e5fd7e373ec3b204746a86223eebabf0bc42bddf514e4843dd3459f2fea1b1e"
+      "name": "KYUREN-Companion-1241e30777-Windows-x64.exe",
+      "sha256": "1d98b997fb8ae394042bb5efc7bc6bd67ab9f844207cf70d919592b11cec8605"
     },
     {
       "name": "KYUREN-xiao_ble-usb-studio.uf2",
-      "sha256": "c477ffc824394033c56ffeb8a4159ab1046960478fd278ea5d329f5f39ce2150"
+      "sha256": "10b135021a1e0e86c02ebeb7948fb9fc72013a4ebc5ccfc6f77476f35f36401c"
     }
   ]
 }
