@@ -21,8 +21,20 @@ jobs:
         shell: pwsh
         run: |
           if ($env:RELEASE_TAG -notmatch '^v[0-9A-Za-z._-]+$') { throw 'Invalid tag' }
-          gh release download $env:RELEASE_TAG --pattern 'KYUREN-Companion-*-Windows-x64.exe' --pattern 'SHA256SUMS.txt' --dir $env:RUNNER_TEMP
-          if ($LASTEXITCODE -ne 0) { throw 'Download failed' }
+          $releaseJson = gh api "repos/$env:GH_REPO/releases/tags/$env:RELEASE_TAG"
+          if ($LASTEXITCODE -ne 0) { throw 'Release lookup failed' }
+          $release = $releaseJson | ConvertFrom-Json
+          if ($release.draft) { throw 'Release is still a draft' }
+          # Embedded release.assets may lag behind uploads; query assets directly.
+          $assetsJson = gh api --paginate --slurp "repos/$env:GH_REPO/releases/$($release.id)/assets?per_page=100"
+          if ($LASTEXITCODE -ne 0) { throw 'Asset lookup failed' }
+          $assets = @($assetsJson | ConvertFrom-Json | ForEach-Object { $_ } | ForEach-Object { $_ })
+          $wanted = @($assets | Where-Object { $_.name -match '^KYUREN-Companion-[0-9A-Za-z._-]+-Windows-x64\.exe$' -or $_.name -eq 'SHA256SUMS.txt' })
+          if ($wanted.Count -ne 2) { throw 'Expected installer and checksums' }
+          foreach ($asset in $wanted) {
+            if ($asset.state -ne 'uploaded') { throw 'Asset is not ready' }
+            Invoke-WebRequest -Uri $asset.browser_download_url -OutFile (Join-Path $env:RUNNER_TEMP $asset.name)
+          }
           $installers = @(Get-ChildItem $env:RUNNER_TEMP -Filter 'KYUREN-Companion-*-Windows-x64.exe')
           if ($installers.Count -ne 1) { throw 'Expected exactly one installer' }
           $name = $installers[0].Name
