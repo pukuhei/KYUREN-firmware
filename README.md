@@ -9,9 +9,9 @@
 
 | 必要なもの | ダウンロード |
 | --- | --- |
-| Mac用Companion（Apple Silicon、macOS 14以降） | [macOS版 DMG](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-e55fad634b/KYUREN-Companion-e55fad634b-macOS-arm64.dmg) |
-| Windows用Companion（Windows 11、x64） | [Windows版 EXE](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-e55fad634b/KYUREN-Companion-e55fad634b-Windows-x64.exe) |
-| KYUREN本体の通常版ファーム | [UF2](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-e55fad634b/KYUREN-xiao_ble-usb-studio.uf2) |
+| Mac用Companion（Apple Silicon、macOS 14以降） | [macOS版 DMG](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-f012984735/KYUREN-Companion-f012984735-macOS-arm64.dmg) |
+| Windows用Companion（Windows 11、x64） | [Windows版 EXE](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-f012984735/KYUREN-Companion-f012984735-Windows-x64.exe) |
+| KYUREN本体の通常版ファーム | [UF2](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.09.23-f012984735/KYUREN-xiao_ble-usb-studio.uf2) |
 
 [すべての配布ファイル・更新内容](https://github.com/pukuhei/KYUREN-firmware/releases) · [検証状況](VERIFICATION.md)
 
