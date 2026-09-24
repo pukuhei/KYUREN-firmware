@@ -1,19 +1,48 @@
 {
-  "sourceCommit": "ba9fffd552d7a1c99f5afc28aef8324789a4fe9f",
-  "tag": "v2026.09.24-ba9fffd552",
-  "windowsVerification": "https://github.com/pukuhei/KYUREN-firmware/actions/runs/35943634292",
+  "sourceCommit": "800c5165902dc3693d4700609bddaa94ac778abd",
+  "tag": "v2026.09.24-800c516590",
+  "windowsVerification": "https://github.com/pukuhei/KYUREN-firmware/actions/runs/36013426890",
   "assets": [
     {
-      "name": "KYUREN-Companion-ba9fffd552-macOS-arm64.dmg",
-      "sha256": "69b32614ee752526ed519b5beb9aedb8e23217b7dd2072754328cfb92aff00b3"
+      "name": "KYUREN-Companion-800c516590-macOS-arm64.dmg",
+      "sha256": "89850db135d49f8a2acd9067dd32a9ab31c17f55f7c57c311431233703dacd82"
     },
     {
-      "name": "KYUREN-Companion-ba9fffd552-Windows-x64.exe",
-      "sha256": "84068c6229c9c3b51dac3d0f912469d6ddbf4a239c7077b5b40f39d6a5859605"
+      "name": "KYUREN-Companion-800c516590-Windows-x64.exe",
+      "sha256": "da1e1b047fdfe99ee4733d936492c6e670ba8b5a469a9f868b1472887af7d2e3"
     },
     {
       "name": "KYUREN-xiao_ble-usb-studio.uf2",
-      "sha256": "d91de3ee50dda8d6ef6730040868492090645941f55a6168c3e34b6e37fccb56"
+      "sha256": "52c1412a487f7aadab9b2c82a5b79391d98ca01f0530ce8e1fca3b8e5c71bfc3"
     }
-  ]
+  ],
+  "landingPage": {
+    "directory": "site",
+    "files": [
+      {
+        "path": "assets/index-9fowXstd.css",
+        "sha256": "3ac98ef8cf22574b179581b68adfad498a3b0798179422281ce572d6d5b4337e"
+      },
+      {
+        "path": "assets/index-B-CsOk6D.js",
+        "sha256": "58ba176fe0c7a6119cbfa755a6b6006c539f6bb8dd858a69a0311e89aff40b9a"
+      },
+      {
+        "path": "assets/kyuren-fox-icon.png",
+        "sha256": "6e428e3742db97b6ddbeb34827ac861d0429a0020cc7904ff4fc102b9444eb45"
+      },
+      {
+        "path": "assets/kyuren-fox-mark.png",
+        "sha256": "323ff4506afb6a1994bd047e496fff3663e9e15b2f92d01af05f9f3c452ed847"
+      },
+      {
+        "path": "assets/kyuren-hero.webp",
+        "sha256": "5539907fb07b996d3f7515942a2b0c815f7808568a0a482216bd2a6ebf50a8c8"
+      },
+      {
+        "path": "index.html",
+        "sha256": "d2e15be5868c047da822ac5e615364808c91810364889578599f6fb93689bf92"
+      }
+    ]
+  }
 }
