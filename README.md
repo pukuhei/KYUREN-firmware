@@ -9,9 +9,9 @@
 
 | 必要なもの | ダウンロード |
 | --- | --- |
-| Mac用Companion（Apple Silicon、macOS 14以降） | [macOS版 DMG](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.12-2cc2dad1f9/KYUREN-Companion-2cc2dad1f9-macOS-arm64.dmg) |
-| Windows用Companion（Windows 11、x64） | [Windows版 EXE](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.12-2cc2dad1f9/KYUREN-Companion-2cc2dad1f9-Windows-x64.exe) |
-| KYUREN本体の通常版ファーム | [UF2](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.12-2cc2dad1f9/KYUREN-xiao_ble-usb-studio.uf2) |
+| Mac用Companion（Apple Silicon、macOS 14以降） | [macOS版 DMG](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.14-3d9219bc79/KYUREN-Companion-3d9219bc79-macOS-arm64.dmg) |
+| Windows用Companion（Windows 11、x64） | [Windows版 EXE](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.14-3d9219bc79/KYUREN-Companion-3d9219bc79-Windows-x64.exe) |
+| KYUREN本体の通常版ファーム | [UF2](https://github.com/pukuhei/KYUREN-firmware/releases/download/v2026.10.14-3d9219bc79/KYUREN-xiao_ble-usb-studio.uf2) |
 
 [すべての配布ファイル・更新内容](https://github.com/pukuhei/KYUREN-firmware/releases) · [検証状況](VERIFICATION.md)
 
@@ -42,6 +42,12 @@
 
 Enterはアプリによって送信になります。Agentの選択は表示対象だけで、音声の入力先は変わりません。
 トラックパッドの向きは再起動で標準へ戻ります。キー割り当てを独自に変更した場合、上記の操作と異なる場合があります。
+
+## アプリの更新
+
+Companionの「設定 → アプリの更新」から確認・ダウンロードできます。MacはDMGを開き、音声入力が終わったら⌘Qでアプリを終了してApplicationsへ入れ替えます。Windowsは「終了して更新する」からインストーラーを開き、案内に沿って更新してください。完了後はアプリを起動します。
+
+設定は引き継がれます。本体ファームウェアは別途更新してください。更新項目のない旧版は、最初の1回だけ上のリンクから新しいCompanionをインストールします。
 
 ## ファームウェアの更新
 
